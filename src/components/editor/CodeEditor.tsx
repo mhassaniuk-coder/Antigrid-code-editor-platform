@@ -7,15 +7,17 @@ import { useCollaboration } from '../../features/collaboration/CollaborationCont
 interface CodeEditorProps {
     code?: string;
     language?: string;
+    activeFile?: string;
     onChange?: (value: string | undefined) => void;
 }
 
-const CodeEditor: React.FC<CodeEditorProps> = ({ code, language = 'typescript', onChange }) => {
+const CodeEditor: React.FC<CodeEditorProps> = ({ code, language = 'typescript', activeFile, onChange }) => {
     const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
     const monacoRef = useRef<Monaco | null>(null);
     const { users, connected } = useCollaboration();
     const decorationsRef = useRef<string[]>([]);
 
+    // ... handleEditorDidMount (restored)
     const handleEditorDidMount = (editorInstance: editor.IStandaloneCodeEditor, monaco: Monaco) => {
         editorRef.current = editorInstance;
         monacoRef.current = monaco;
@@ -56,21 +58,23 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ code, language = 'typescript', 
             return;
         }
 
-        const newDecorations = users.map(user => {
-            if (!user.cursor) return null;
-            return {
-                range: new monacoRef.current!.Range(user.cursor.lineNumber, user.cursor.column, user.cursor.lineNumber, user.cursor.column + 1),
-                options: {
-                    className: `remote-cursor-${user.id}`,
-                    hoverMessage: { value: `User: ${user.name}` },
-                    beforeContentClassName: `remote-cursor-label-${user.id}`,
-                }
-            };
-        }).filter(Boolean) as editor.IModelDeltaDecoration[];
+        const newDecorations = users
+            .filter(user => user.currentFile === activeFile) // Only show users in the same file
+            .map(user => {
+                if (!user.cursor) return null;
+                return {
+                    range: new monacoRef.current!.Range(user.cursor.lineNumber, user.cursor.column, user.cursor.lineNumber, user.cursor.column + 1),
+                    options: {
+                        className: `remote-cursor-${user.id}`,
+                        hoverMessage: { value: `User: ${user.name}` },
+                        beforeContentClassName: `remote-cursor-label-${user.id}`,
+                    }
+                };
+            }).filter(Boolean) as editor.IModelDeltaDecoration[];
 
         decorationsRef.current = editorRef.current.deltaDecorations(decorationsRef.current, newDecorations);
 
-    }, [users, connected]);
+    }, [users, connected, activeFile]);
 
     return (
         <div className="h-full w-full overflow-hidden">

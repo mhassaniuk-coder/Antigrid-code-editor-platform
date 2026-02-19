@@ -12,6 +12,7 @@ interface ComposerProps {
 const Composer: React.FC<ComposerProps> = ({ isVisible = true, onClose, onSubmit }) => {
     const [prompt, setPrompt] = useState('');
     const inputRef = useRef<HTMLTextAreaElement>(null);
+    const [isGenerating, setIsGenerating] = useState(false);
 
     // Auto-resize textarea
     useEffect(() => {
@@ -21,12 +22,16 @@ const Composer: React.FC<ComposerProps> = ({ isVisible = true, onClose, onSubmit
         }
     }, [prompt]);
 
-    const handleSubmit = () => {
-        if (prompt.trim()) {
+    const handleSubmit = async () => {
+        if (prompt.trim() && !isGenerating) {
+            setIsGenerating(true);
+            // Simulate AI delay handled by parent or internal mock
+            await new Promise(resolve => setTimeout(resolve, 1500));
             onSubmit(prompt);
             setPrompt('');
-            // Reset height
+            setIsGenerating(false);
             if (inputRef.current) inputRef.current.style.height = 'auto';
+            onClose?.(); // Close on success
         }
     };
 
@@ -50,10 +55,14 @@ const Composer: React.FC<ComposerProps> = ({ isVisible = true, onClose, onSubmit
                     transition={{ duration: 0.2 }}
                     className="fixed bottom-8 left-1/2 -translate-x-1/2 w-[600px] max-w-[90vw] z-50 pointer-events-none"
                 >
-                    <div className="bg-[var(--bg-secondary)] border border-[var(--border-highlight)] rounded-xl shadow-2xl overflow-hidden pointer-events-auto">
+                    <div className="bg-[var(--bg-secondary)] border border-[var(--border-highlight)] rounded-xl shadow-2xl overflow-hidden pointer-events-auto relative">
+                        {isGenerating && (
+                            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[var(--accent-primary)] to-transparent animate-shimmer" style={{ backgroundSize: '200% 100%' }} />
+                        )}
+
                         <div className="p-3 bg-[rgba(19,19,22,0.8)] backdrop-blur-xl">
                             <div className="relative flex items-end gap-2">
-                                <div className="pb-2 text-[var(--accent-primary)] animate-pulse">
+                                <div className={cn("pb-2 text-[var(--accent-primary)]", isGenerating ? "animate-spin" : "animate-pulse")}>
                                     <Sparkles size={18} />
                                 </div>
                                 <textarea
@@ -61,17 +70,18 @@ const Composer: React.FC<ComposerProps> = ({ isVisible = true, onClose, onSubmit
                                     value={prompt}
                                     onChange={(e) => setPrompt(e.target.value)}
                                     onKeyDown={handleKeyDown}
-                                    placeholder="Generate code with AI..."
-                                    className="w-full bg-transparent border-none focus:ring-0 outline-none text-[var(--text-primary)] placeholder-[var(--text-tertiary)] resize-none max-h-[300px] py-2 text-base font-sans leading-relaxed"
+                                    placeholder={isGenerating ? "Generating code..." : "Generate code with AI..."}
+                                    disabled={isGenerating}
+                                    className="w-full bg-transparent border-none focus:ring-0 outline-none text-[var(--text-primary)] placeholder-[var(--text-tertiary)] resize-none max-h-[300px] py-2 text-base font-sans leading-relaxed disabled:opacity-50"
                                     rows={1}
                                     autoFocus
                                 />
                                 <button
                                     onClick={handleSubmit}
-                                    disabled={!prompt.trim()}
+                                    disabled={!prompt.trim() || isGenerating}
                                     className={cn(
                                         "flex items-center justify-center p-2 rounded-lg transition-all mb-1 h-8 w-8",
-                                        prompt.trim()
+                                        prompt.trim() && !isGenerating
                                             ? "bg-[var(--accent-primary)] text-white hover:bg-[var(--accent-hover)]"
                                             : "bg-[var(--bg-tertiary)] text-[var(--text-tertiary)] cursor-not-allowed"
                                     )}
@@ -92,7 +102,7 @@ const Composer: React.FC<ComposerProps> = ({ isVisible = true, onClose, onSubmit
                                 </span>
                             </div>
                             <div className="font-mono opacity-50">
-                                enter to submit
+                                {isGenerating ? 'generating...' : 'enter to submit'}
                             </div>
                         </div>
                     </div>

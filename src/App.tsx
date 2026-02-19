@@ -61,6 +61,7 @@ function App() {
               code={fileContent}
               onChange={handleEditorChange}
               language={activeFile.endsWith('.json') ? 'json' : 'typescript'}
+              activeFile={activeFile || 'main.tsx'}
             />
           ) : (
             <div className="h-full w-full" onClick={() => handleFileSelect('main.tsx')}>
