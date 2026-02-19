@@ -87,6 +87,10 @@ const AgentPanel: React.FC = () => {
             {/* Input Area */}
             <div className="p-4 border-t border-[var(--border-subtle)] bg-[var(--bg-secondary)]/20 backdrop-blur-md">
                 <div className="bg-[var(--bg-primary)]/80 border border-[var(--border-highlight)] rounded-xl p-3 shadow-lg focus-within:border-[var(--accent-primary)] focus-within:ring-1 focus-within:ring-[var(--accent-primary)]/50 transition-all">
+                    <div className="text-[10px] font-bold text-[var(--accent-primary)] uppercase tracking-widest mb-2 flex items-center gap-1.5 opacity-80 select-none">
+                        <Hexagon size={10} strokeWidth={2.5} />
+                        Antigravity
+                    </div>
                     <input
                         value={input}
                         onChange={(e) => setInput(e.target.value)}

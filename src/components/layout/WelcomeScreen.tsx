@@ -4,14 +4,22 @@ import { Hexagon } from 'lucide-react';
 const WelcomeScreen: React.FC = () => {
     return (
         <div className="h-full w-full flex flex-col items-center justify-center bg-[var(--bg-primary)] text-[var(--text-secondary)] select-none">
-            <div className="flex flex-col items-center mb-12 animate-in fade-in zoom-in duration-500">
-                <Hexagon size={64} className="text-[var(--text-primary)] mb-4" strokeWidth={1.5} />
-                <h1 className="text-2xl font-medium text-[var(--text-primary)] tracking-tight">Antigravity</h1>
+            <div className="flex flex-col items-center mb-16 animate-in fade-in zoom-in duration-700">
+                <div className="relative group mb-6">
+                    <div className="absolute inset-0 bg-[var(--accent-primary)] blur-2xl opacity-20 group-hover:opacity-40 transition-opacity duration-500 rounded-full" />
+                    <Hexagon size={80} className="relative z-10 text-[var(--text-primary)] group-hover:text-[var(--accent-primary)] transition-colors duration-500" strokeWidth={1.5} />
+                </div>
+                <h1 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[var(--text-primary)] via-[var(--accent-primary)] to-[var(--text-primary)] tracking-tight mb-2">
+                    Antigravity
+                </h1>
+                <p className="text-sm text-[var(--text-tertiary)] tracking-widest uppercase opacity-60">
+                    Next-Gen AI Code Editor
+                </p>
             </div>
 
             <div className="space-y-4 w-64">
                 <ShortcutItem label="Switch to Agent Manager" keys={['⌘', 'E']} />
-                <ShortcutItem label="Code with Agent" keys={['⌘', 'L']} />
+                <ShortcutItem label="Code with Agent (Composer)" keys={['⌘', 'K']} />
                 <ShortcutItem label="Edit code inline" keys={['⌘', 'I']} />
             </div>
         </div>
