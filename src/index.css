@@ -1,0 +1,128 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Deep Space Theme */
+  --bg-primary: #050505;
+  /* Almost black */
+  --bg-secondary: #0a0a0a;
+  /* Dark gray */
+  --bg-tertiary: #121212;
+  /* Slightly lighter */
+  --bg-hover: #1e1e1e;
+  /* Hover state */
+
+  /* Glassmorphism Bases */
+  --glass-bg: rgba(20, 20, 20, 0.6);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-shine: rgba(255, 255, 255, 0.03);
+
+  /* Typography */
+  --text-primary: #ededed;
+  --text-secondary: #a1a1aa;
+  --text-tertiary: #52525b;
+
+  /* Borders */
+  --border-subtle: #27272a;
+  --border-highlight: #3f3f46;
+
+  /* Brand Accents - Nebula Purple/Blue */
+  --accent-primary: #6366f1;
+  /* Indigo 500 */
+  --accent-hover: #818cf8;
+  /* Indigo 400 */
+  --accent-glow: rgba(99, 102, 241, 0.5);
+
+  /* Semantic */
+  --status-success: #10b981;
+  --status-warning: #f59e0b;
+  --status-error: #ef4444;
+}
+
+/* Glassmorphism Utilities */
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+}
+
+.item-hover {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.item-hover:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', system-ui, sans-serif;
+  background-color: var(--bg-primary);
+  /* Subtle mesh gradient logic */
+  background-image:
+    radial-gradient(circle at 50% 0%, rgba(99, 102, 241, 0.08) 0%, transparent 40%),
+    radial-gradient(circle at 0% 100%, rgba(99, 102, 241, 0.05) 0%, transparent 30%);
+  color: var(--text-primary);
+  overflow: hidden;
+  /* Prevent scrolling for spatial canvas feel */
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--bg-tertiary);
+  border-radius: 5px;
+  border: 2px solid var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--border-highlight);
+}
+
+/* Remote Cursors */
+.remote-cursor-1 {
+  background-color: rgba(255, 0, 0, 0.3);
+  border-left: 2px solid red;
+}
+
+.remote-cursor-label-1::before {
+  content: "Sarah";
+  background-color: red;
+  color: white;
+  font-size: 10px;
+  padding: 2px 4px;
+  border-radius: 2px;
+  position: absolute;
+  top: -18px;
+  left: 0;
+  white-space: nowrap;
+}
+
+.remote-cursor-2 {
+  background-color: rgba(0, 255, 0, 0.3);
+  border-left: 2px solid lime;
+}
+
+.remote-cursor-label-2::before {
+  content: "Mike";
+  background-color: lime;
+  color: black;
+  font-size: 10px;
+  padding: 2px 4px;
+  border-radius: 2px;
+  position: absolute;
+  top: -18px;
+  left: 0;
+  white-space: nowrap;
+}
