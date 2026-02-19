@@ -1,5 +1,6 @@
+
 import React, { useState } from 'react';
-import { Files, Search, GitBranch, Bug, Puzzle } from 'lucide-react';
+import { Files, Search, GitBranch, Bug, Puzzle, Hexagon } from 'lucide-react';
 import { cn } from '../../lib/utils';
 import { useMode } from '../../features/modes/ModeContext';
 import { Reorder } from 'framer-motion';
@@ -19,7 +20,17 @@ const ActivityBar: React.FC<ActivityBarProps> = ({ activeView, onViewChange }) =
         { id: 'git', icon: <GitBranch size={24} />, label: 'Source Control' },
         { id: 'debug', icon: <Bug size={24} />, label: 'Run and Debug' },
         { id: 'extensions', icon: <Puzzle size={24} />, label: 'Extensions' },
-        { id: 'mode', icon: <div className="font-bold text-xs border border-current rounded px-0.5">M</div>, label: 'Toggle Mode', action: 'toggle' },
+        {
+            id: 'mode',
+            icon: (
+                <div className="relative flex items-center justify-center">
+                    <div className="absolute inset-0 bg-gradient-to-tr from-[var(--accent-primary)] to-purple-500 blur-md opacity-20 group-hover:opacity-100 transition-opacity duration-500" />
+                    <Hexagon className="relative z-10 text-[var(--accent-primary)] group-hover:text-white transition-colors duration-300 drop-shadow-[0_0_8px_rgba(99,102,241,0.5)]" size={26} strokeWidth={2.5} />
+                </div>
+            ),
+            label: 'Switch Mode',
+            action: 'toggle'
+        },
     ]);
 
     return (
