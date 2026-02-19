@@ -10,7 +10,7 @@ const WelcomeScreen: React.FC = () => {
                     <Hexagon size={80} className="relative z-10 text-[var(--text-primary)] group-hover:text-[var(--accent-primary)] transition-colors duration-500" strokeWidth={1.5} />
                 </div>
                 <h1 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[var(--text-primary)] via-[var(--accent-primary)] to-[var(--text-primary)] tracking-tight mb-2">
-                    Antigravity
+                    Antigrid
                 </h1>
                 <p className="text-sm text-[var(--text-tertiary)] tracking-widest uppercase opacity-60">
                     Next-Gen AI Code Editor
